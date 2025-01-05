@@ -2,8 +2,6 @@
     <thead class="table-dark">
         <tr>
             <th>No</th>
-            <th class="w-25">Judul</th>
-            <th class="w-75">Isi</th>
             <th class="w-25">Gambar</th>
             <th class="w-25">Aksi</th>
         </tr>
@@ -17,19 +15,13 @@
             $limit_start = ($hlm - 1) * $limit;
             $no = $limit_start + 1;
 
-            $sql = "SELECT * FROM article ORDER BY created_at DESC LIMIT $limit_start, $limit";
+            $sql = "SELECT * FROM gallery ORDER BY created_at DESC LIMIT $limit_start, $limit";
             $hasil = $conn->query($sql);
 
             while ($row = $hasil->fetch_assoc()) {
         ?>
         <tr>
             <td><?= $no++ ?></td>
-            <td>
-                <strong><?= $row["title"] ?></strong>
-                <br>pada : <?= $row["created_at"] ?>
-                <br>oleh : <?= $row["username"] ?>
-            </td>
-            <td><?= $row["content"] ?></td>
             <td>
                 <?php
                     if ($row["image"] != '') {
@@ -53,30 +45,19 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Article</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Gallery</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <form method="post" action="" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="formGroupExampleInput" class="form-label">Judul</label>
-                                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                                        <input type="text" class="form-control" name="title"
-                                            placeholder="Tuliskan Judul Artikel" value="<?= $row["title"] ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="floatingTextarea2">Isi</label>
-                                        <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="content"
-                                            required><?= $row["content"] ?></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="formGroupExampleInput2" class="form-label">Ganti
+                                        <label for="image" class="form-label">Ganti
                                             Gambar</label>
                                         <input type="file" class="form-control" name="image">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="formGroupExampleInput3" class="form-label">Gambar
+                                        <label for="old_image" class="form-label">Gambar
                                             Lama</label>
                                         <?php
                                             if ($row["image"] != '') {
@@ -87,6 +68,7 @@
                                                 }
                                             }
                                         ?>
+                                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                         <input type="hidden" name="image" value="<?= $row["image"] ?>">
                                     </div>
                                 </div>
@@ -108,7 +90,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Hapus
-                                    Article</h1>
+                                    Gallery</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -116,16 +98,15 @@
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="formGroupExampleInput" class="form-label">Yakin akan
-                                            menghapus artikel
-                                            "<strong><?= $row["title"] ?></strong>"?</label>
+                                            menghapus gallery ini?</label>
                                         <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                         <input type="hidden" name="old_image" value="<?= $row["image"] ?>">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">batal</button>
-                                    <input type="submit" value="hapus" name="hapus" class="btn btn-primary">
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <input type="submit" value="Hapus" name="hapus" class="btn btn-danger">
                                 </div>
                             </form>
                         </div>
@@ -141,11 +122,11 @@
 </table>
 
 <?php
-$sql1 = "SELECT * FROM article";
+$sql1 = "SELECT * FROM gallery";
 $hasil1 = $conn->query($sql1);
 $total_records = $hasil1->num_rows;
 ?>
-<p>Total article : <?php echo $total_records; ?></p>
+<p>Total gallery : <?php echo $total_records; ?></p>
 <nav class="mb-2">
     <ul class="pagination justify-content-end">
         <?php
