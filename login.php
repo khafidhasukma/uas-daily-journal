@@ -7,48 +7,50 @@ include "koneksi.php";
 
 //check jika sudah ada user yang login arahkan ke halaman admin
 if (isset($_SESSION['username'])) {
-	header("location:admin.php");
+    header("location:admin.php");
 }
 
+$error_message = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = $_POST['username'];
-  
-  //menggunakan fungsi enkripsi md5 supaya sama dengan password  yang tersimpan di database
-  $password = md5($_POST['password']);
+    $username = $_POST['username'];
+    
+    //menggunakan fungsi enkripsi md5 supaya sama dengan password  yang tersimpan di database
+    $password = md5($_POST['password']);
 
-	//prepared statement
-  $stmt = $conn->prepare("SELECT username
-                          FROM user
-                          WHERE username=? AND password=?");
+    //prepared statement
+    $stmt = $conn->prepare("SELECT username
+                            FROM user
+                            WHERE username=? AND password=?");
 
-	//parameter binding
-  $stmt->bind_param("ss", $username, $password);//username string dan password string
-  
-  //database executes the statement
-  $stmt->execute();
-  
-  //menampung hasil eksekusi
-  $hasil = $stmt->get_result();
-  
-  //mengambil baris dari hasil sebagai array asosiatif
-  $row = $hasil->fetch_array(MYSQLI_ASSOC);
+    //parameter binding
+    $stmt->bind_param("ss", $username, $password);//username string dan password string
+    
+    //database executes the statement
+    $stmt->execute();
+    
+    //menampung hasil eksekusi
+    $hasil = $stmt->get_result();
+    
+    //mengambil baris dari hasil sebagai array asosiatif
+    $row = $hasil->fetch_array(MYSQLI_ASSOC);
 
-  //check apakah ada baris hasil data user yang cocok
-  if (!empty($row)) {
-    //jika ada, simpan variable username pada session
-    $_SESSION['username'] = $row['username'];
+    //check apakah ada baris hasil data user yang cocok
+    if (!empty($row)) {
+        //jika ada, simpan variable username pada session
+        $_SESSION['username'] = $row['username'];
 
-    //mengalihkan ke halaman admin
-    header("location:admin.php");
-  } else {
-	  //jika tidak ada (gagal), alihkan kembali ke halaman login
-    header("location:login.php");
-  }
+        //mengalihkan ke halaman admin
+        header("location:admin.php");
+    } else {
+        //jika tidak ada (gagal), tampilkan pesan kesalahan
+        $error_message = 'Username atau password salah';
+    }
 
-	//menutup koneksi database
-  $stmt->close();
-  $conn->close();
-} else {
+    //menutup koneksi database
+    $stmt->close();
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="card mt-4 rounded-3 mx-auto">
             <div class="card-body">
+                <?php if ($error_message != ''): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $error_message; ?>
+                </div>
+                <?php endif; ?>
                 <form method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -107,5 +114,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </html>
 <?php
-}
 ?>

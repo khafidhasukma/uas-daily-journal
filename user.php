@@ -96,7 +96,7 @@ if (isset($_POST['simpan'])) {
         die;
     }
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+    $hashed_password = md5($password); // Hash the password using md5
 
     //jika ada file yang dikirim  
     if ($photo_name != '') {
