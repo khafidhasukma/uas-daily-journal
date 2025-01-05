@@ -140,23 +140,36 @@ include "koneksi.php";
             <h1 class="text-center fw-bold mb-4">Gallery</h1>
             <div id="carouselExampleIndicators" class="carousel slide">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                    <?php
+                    include "koneksi.php";
+                    $stmt = $conn->prepare("SELECT id FROM gallery");
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $i = 0;
+                    while ($row = $result->fetch_assoc()) {
+                        $active = $i == 0 ? 'active' : '';
+                        echo '<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="' . $i . '" class="' . $active . '" aria-current="true" aria-label="Slide ' . ($i + 1) . '"></button>';
+                        $i++;
+                    }
+                    $stmt->close();
+                    ?>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="img/picture1.png" class="d-block w-50 mx-auto" alt="..." />
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/picture2.png" class="d-block w-50 mx-auto" alt="..." />
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/picture3.png" class="d-block w-50 mx-auto" alt="..." />
-                    </div>
+                    <?php
+                    $stmt = $conn->prepare("SELECT image FROM gallery");
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $i = 0;
+                    while ($row = $result->fetch_assoc()) {
+                        $active = $i == 0 ? 'active' : '';
+                        echo '<div class="carousel-item ' . $active . '">';
+                        echo '<img src="img/' . $row['image'] . '" class="d-block w-50 mx-auto object-fit-contain" style="height: 500px" alt="...">';
+                        echo '</div>';
+                        $i++;
+                    }
+                    $stmt->close();
+                    $conn->close();
+                    ?>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="prev">
