@@ -92,8 +92,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <input type="submit" value="simpan" name="simpan" class="btn btn-primary">
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <input type="submit" value="Simpan" name="simpan" class="btn btn-primary">
                                 </div>
                             </form>
                         </div>
@@ -124,8 +124,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">batal</button>
-                                    <input type="submit" value="hapus" name="hapus" class="btn btn-primary">
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <input type="submit" value="Hapus" name="hapus" class="btn btn-danger">
                                 </div>
                             </form>
                         </div>

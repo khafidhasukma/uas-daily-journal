@@ -27,8 +27,8 @@
                             <input type="hidden" name="old_photo" id="old_photo">
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <input type="submit" value="simpan" name="simpan" class="btn btn-primary">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <input type="submit" value="Simpan" name="simpan" class="btn btn-primary">
                         </div>
                     </form>
                 </div>

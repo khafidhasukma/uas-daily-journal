@@ -32,7 +32,7 @@
                 if ($row["photo"] != '') {
                     if (file_exists('img/' . $row["photo"])) {
                 ?>
-                <img src="img/<?= $row["photo"] ?>" width="100">
+                <img src="img/<?= $row["photo"] ?>" width="50" height="50" class="rounded-circle object-fit-cover">
                 <?php
                     }
                 }
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                        data-bs-dismiss="modal">Batal</button>
                                     <input type="submit" value="Simpan" name="simpan" class="btn btn-primary">
                                 </div>
                             </form>
